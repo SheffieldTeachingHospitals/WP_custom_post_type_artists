@@ -72,3 +72,36 @@ function artist_post_type() {
 add_action( 'init', 'artist_post_type', 0 );
 
 }
+
+function include_template_function( $template_path ) {
+  
+  // archive
+  
+  if ( get_post_type() == 'artists-musicians' ) {
+        if ( is_archive() ) {
+            // checks if the file exists in the theme first,
+            // otherwise serve the file from the plugin
+            if ( $theme_file = locate_template( array ( 'archive-artist.php' ) ) ) {
+                $template_path = $theme_file;
+            } else {
+                $template_path = plugin_dir_path( __FILE__ ) . '/archive-artist.php';
+            }
+        }
+    
+        if ( is_single() ) {
+            // checks if the file exists in the theme first,
+            // otherwise serve the file from the plugin
+            if ( $theme_file = locate_template( array ( 'single-artist.php' ) ) ) {
+                $template_path = $theme_file;
+            } else {
+                $template_path = plugin_dir_path( __FILE__ ) . '/single-artist.php';
+            }
+        }
+    }
+  
+  
+  
+    return $template_path;
+}
+
+add_filter( 'template_include', 'include_template_function', 1 );
