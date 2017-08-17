@@ -28,7 +28,24 @@ get_header(); ?>
 
         <?php while ( have_posts() ) : the_post(); ?>
 
-          <?php get_template_part( 'template-parts/content', 'single' ); ?>
+        <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+          <div class="entry-content artist">
+            <?php the_content(); ?>
+            <?php
+              wp_link_pages( array(
+                'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'sth' ),
+                'after'  => '</div>',
+              ) );
+            ?>
+          </div><!-- .entry-content -->
+
+          <footer class="entry-footer">
+            <?php sth_entry_footer(); ?>
+          </footer><!-- .entry-footer -->
+        </article><!-- #post-## -->  
+        
+        
+          <?php get_template_part( 'template-parts/content', 'parts' ); ?> 
           <?php get_template_part( 'template-parts/content', 'nav' ); ?>
 
         <?php endwhile; // End of the loop. ?>
@@ -41,4 +58,5 @@ get_header(); ?>
     </div>
 	</div><!-- #primary-->
 
+<?php get_template_part( 'template-parts/content', 'marketing' ); ?> 
 <?php get_footer(); ?>
